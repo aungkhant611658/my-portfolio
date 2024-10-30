@@ -4,45 +4,54 @@ import React, { Suspense } from "react";
 import HackerRoom from "../components/HackerRoom";
 import CanvasLoader from "../components/CanvasLoader";
 import { Leva, useControls } from "leva";
+import { useMediaQuery } from "react-responsive";
+import { calculateSizes } from "../constants/index";
+import Target from "../components/Target";
 
 const Hero = () => {
-  const x = useControls("HackerRoom", {
-    positionX: {
-      value: 2.5,
-      min: -10,
-      max: 10,
-    },
-    positionY: {
-      value: 2.5,
-      min: -10,
-      max: 10,
-    },
-    positionZ: {
-      value: 2.5,
-      min: -10,
-      max: 10,
-    },
-    rotationX: {
-      value: 2.5,
-      min: -10,
-      max: 10,
-    },
-    rotationY: {
-      value: 2.5,
-      min: -10,
-      max: 10,
-    },
-    rotationZ: {
-      value: 2.5,
-      min: -10,
-      max: 10,
-    },
-    scale: {
-      value: 2.5,
-      min: -10,
-      max: 10,
-    },
-  });
+  const isSmall = useMediaQuery({ maxWidth: 440 });
+  const isMobile = useMediaQuery({ maxWidth: 768 });
+  const isTablet = useMediaQuery({ minWidth: 768, maxWidth: 1024 });
+
+  const sizes = calculateSizes(isSmall, isMobile, isTablet);
+
+  // const controls = useControls("HackerRoom", {
+  //   positionX: {
+  //     value: 2.5,
+  //     min: -10,
+  //     max: 10,
+  //   },
+  //   positionY: {
+  //     value: 2.5,
+  //     min: -10,
+  //     max: 10,
+  //   },
+  //   positionZ: {
+  //     value: 2.5,
+  //     min: -10,
+  //     max: 10,
+  //   },
+  //   rotationX: {
+  //     value: 2.5,
+  //     min: -10,
+  //     max: 10,
+  //   },
+  //   rotationY: {
+  //     value: 2.5,
+  //     min: -10,
+  //     max: 10,
+  //   },
+  //   rotationZ: {
+  //     value: 2.5,
+  //     min: -10,
+  //     max: 10,
+  //   },
+  //   scale: {
+  //     value: 2.5,
+  //     min: -10,
+  //     max: 10,
+  //   },
+  // });
 
   return (
     <section className="min-h-screen w-full flex flex-col relative">
@@ -58,23 +67,27 @@ const Hero = () => {
 
       <div className="w-full h-full absolute inset-0">
         {/* for testing control */}
-        <Leva />
+        {/* <Leva /> */}
         {/* end */}
 
         <Canvas className="w-full h-full">
           <Suspense fallback={<CanvasLoader />}>
-            <PerspectiveCamera makeDefault position={[0, 0, 30]} />
+            <PerspectiveCamera makeDefault position={[0, 0, 20]} />
 
             <HackerRoom
-              // scale={0.07}
-              // position={[0, 0, 0]}
-              // rotation={[0, 280, 0]}
+              scale={sizes.deskScale}
+              position={sizes.deskPosition}
+              rotation={[0, -Math.PI, 0]}
 
               /* for testing control */
-              scale={[x.scale, x.scale, x.scale]}
-              position={[x.positionX, x.positionY, x.positionZ]}
-              rotation={[x.rotationX, x.rotationY, x.rotationZ]}
+              // scale={[controls.scale, controls.scale, controls.scale]}
+              // position={[controls.positionX, controls.positionY, controls.positionZ]}
+              // rotation={[controls.rotationX, controls.rotationY, controls.rotationZ]}
             />
+
+            <group>
+              <Target position={sizes.targetPosition} />
+            </group>
 
             <ambientLight intensity={1} />
 
