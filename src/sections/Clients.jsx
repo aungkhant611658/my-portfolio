@@ -1,9 +1,12 @@
 import React from "react";
 import { clientReviews } from "../constants";
+import { useMediaQuery } from "react-responsive";
 
 const Clients = () => {
+  const isMobile = useMediaQuery({ maxWidth: 768 });
+
   return (
-    <section className="c-space my-20">
+    <section className={`${isMobile ? "c-space" : "c-space my-20"}`}>
       <h3 className="head-text">Hear from My Clients</h3>
 
       <div className="client-container">

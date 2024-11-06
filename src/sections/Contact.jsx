@@ -1,9 +1,11 @@
 import { useRef, useState } from "react";
 import emailjs from "@emailjs/browser";
+import { useMediaQuery } from "react-responsive";
 
 const Contact = () => {
-  const formRef = useRef();
+  const isMobile = useMediaQuery({ maxWidth: 768 });
 
+  const formRef = useRef();
   const [loading, setLoading] = useState(false);
   const [form, setForm] = useState({
     name: "",
@@ -15,11 +17,8 @@ const Contact = () => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
-  // service_sa87e4p
-
   const handleSubmit = async (e) => {
     e.preventDefault();
-
     setLoading(true);
 
     try {
@@ -52,17 +51,23 @@ const Contact = () => {
   };
 
   return (
-    <section className="c-space my-20">
-      <div className="relative min-h-screen flex items-center justify-center flex-col">
-        <img
-          src="/assets/terminal.png"
-          alt="terminal background"
-          className="absolute inset-0 min-h-screen"
-        />
+    <section className={`c-space ${isMobile ? "" : "my-20"}`}>
+      <div className="relative min-h-screen flex items-center justify-center flex-col overflow-hidden">
+        {!isMobile && (
+          <img
+            src="/assets/terminal.png"
+            alt="terminal background"
+            className="absolute inset-0 w-full h-full object-cover"
+          />
+        )}
 
-        <div className="contact-container">
+        <div
+          className={`contact-container relative z-10 p-5 rounded-lg shadow-md max-w-md mx-auto ${
+            isMobile && "bg-black-200"
+          }`}
+        >
           <h3 className="head-text">Contact Me</h3>
-          <p className="text-lg text-white-600 mt-3">
+          <p className="text-lg text-gray-400 mt-3">
             Whether you're looking to build a new website, improve your existing
             platform, or bring a unique project to life, I'm here to help.
           </p>
