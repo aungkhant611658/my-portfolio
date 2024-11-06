@@ -1,4 +1,5 @@
 import { useRef, useState } from "react";
+import emailjs from "@emailjs/browser";
 
 const Contact = () => {
   const formRef = useRef();
@@ -10,9 +11,45 @@ const Contact = () => {
     message: "",
   });
 
-  const handleChange = () => {};
+  const handleChange = (e) => {
+    setForm({ ...form, [e.target.name]: e.target.value });
+  };
 
-  const handleSubmit = () => {};
+  // service_sa87e4p
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    setLoading(true);
+
+    try {
+      await emailjs.send(
+        "service_sa87e4p",
+        "template_q4j6gga",
+        {
+          from_name: form.name,
+          to_name: "Aung Khant",
+          from_email: form.email,
+          to_email: "aungkhant611658@gmail.com",
+          message: form.message,
+        },
+        "jwo6mqV1LqI4j_uKW"
+      );
+
+      setLoading(false);
+      alert("Your message has been sent!");
+
+      setForm({
+        name: "",
+        email: "",
+        message: "",
+      });
+    } catch (error) {
+      setLoading(false);
+      console.log(error);
+      alert("Something went wrong!");
+    }
+  };
 
   return (
     <section className="c-space my-20">
@@ -73,6 +110,16 @@ const Contact = () => {
                 placeholder="Hi, I'm interested in..."
               />
             </label>
+
+            <button className="field-btn" type="submit" disabled={loading}>
+              {loading ? "Sending..." : "Send Message"}
+
+              <img
+                src="/assets/arrow-up.png"
+                alt="arrow-up"
+                className="field-btn_arrow"
+              />
+            </button>
           </form>
         </div>
       </div>
