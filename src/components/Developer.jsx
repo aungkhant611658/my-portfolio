@@ -1,23 +1,35 @@
-import { useAnimations, useFBX, useGLTF } from "@react-three/drei";
+import { useAnimations, useGLTF } from "@react-three/drei";
 import { useEffect, useRef } from "react";
 
 const Developer = ({ animationName = "developer", ...props }) => {
   const group = useRef();
-  const { nodes, materials } = useGLTF("/models/human/developer.glb");
 
-  const { animations: idleAnimation } = useGLTF("/models/human/developer.glb");
+  // Load the GLTF model and animations
+  const { nodes, materials, animations } = useGLTF(
+    "/models/human/developer.glb"
+  );
 
-  idleAnimation[0].name = "developer";
+  // Rename animation for clarity
+  animations[0].name = "developer";
 
-  const { actions } = useAnimations([idleAnimation[0]], group);
+  // Setup animations using `useAnimations` hook
+  const { actions } = useAnimations(animations, group);
 
   useEffect(() => {
-    actions[animationName].reset().fadeIn(0.5).play();
-    return () => actions[animationName].fadeOut(0.5);
-  }, [animationName]);
+    const action = actions[animationName];
+    if (action) {
+      action.reset().fadeIn(0.5).play();
+    }
+
+    // Clean up on component unmount
+    return () => {
+      if (action) action.fadeOut(0.5);
+    };
+  }, [actions, animationName]);
 
   return (
-    <group {...props} dispose={null} ref={group}>
+    <group {...props} ref={group} dispose={null}>
+      {/* Skinned Meshes for the Model */}
       <skinnedMesh
         geometry={nodes.EyeLeft001.geometry}
         material={materials.Wolf3D_Eye}
@@ -73,6 +85,7 @@ const Developer = ({ animationName = "developer", ...props }) => {
   );
 };
 
+// Preload model for performance
 useGLTF.preload("/models/human/developer.glb");
 
 export default Developer;
