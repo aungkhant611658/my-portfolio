@@ -5,15 +5,15 @@ const Developer = ({ animationName = "developer", ...props }) => {
   const group = useRef();
 
   // Load the GLTF model and animations
-  const { nodes, materials, animations } = useGLTF(
-    "/models/human/developer.glb"
-  );
+  const { nodes, materials } = useGLTF("/models/human/developer.glb");
+
+  const { animations: idleAnimation } = useGLTF("/models/human/developer.glb");
 
   // Rename animation for clarity
-  animations[0].name = animationName;
+  idleAnimation[0].name = animationName;
 
   // Setup animations using `useAnimations` hook
-  const { actions } = useAnimations(animations, group);
+  const { actions } = useAnimations(idleAnimation, group);
 
   useEffect(() => {
     const action = actions[animationName];
