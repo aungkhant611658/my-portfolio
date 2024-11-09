@@ -1,15 +1,13 @@
 import { useAnimations, useGLTF } from "@react-three/drei";
 import { useEffect, useRef } from "react";
 
-const Developer = ({ animationName = "dancing", ...props }) => {
+const Developer = ({ animationName = "offensive_idle", ...props }) => {
   const group = useRef();
 
   // Load the GLTF model and animations
   const { nodes, materials } = useGLTF("/models/human/developer.glb");
 
-  const { animations: idleAnimation } = useGLTF(
-    "/models/animations/dancing.glb"
-  );
+  const { animations: idleAnimation } = useGLTF("/models/human/developer.glb");
 
   const { animations: saluteAnimation } = useGLTF(
     "/models/animations/salute.glb"
@@ -17,6 +15,10 @@ const Developer = ({ animationName = "dancing", ...props }) => {
 
   const { animations: dancingAnimation } = useGLTF(
     "/models/animations/dancing.glb"
+  );
+
+  const { animations: offensiveIdleAnimation } = useGLTF(
+    "/models/animations/offensive_idle.glb"
   );
 
   // Rename animation for clarity
