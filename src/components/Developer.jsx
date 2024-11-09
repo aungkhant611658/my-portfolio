@@ -10,7 +10,7 @@ const Developer = ({ animationName = "developer", ...props }) => {
   );
 
   // Rename animation for clarity
-  animations[0].name = "developer";
+  animations[0].name = animationName;
 
   // Setup animations using `useAnimations` hook
   const { actions } = useAnimations(animations, group);
