@@ -51,7 +51,7 @@ const Contact = () => {
   };
 
   return (
-    <section className={`c-space ${isMobile ? "" : "my-20"}`}>
+    <section className={`c-space ${isMobile ? "" : "my-20"}`} id="contact">
       <div className="relative min-h-screen flex items-center justify-center flex-col overflow-hidden">
         {!isMobile && (
           <img
