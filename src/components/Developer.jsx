@@ -1,18 +1,22 @@
 import { useAnimations, useGLTF } from "@react-three/drei";
 import { useEffect, useRef } from "react";
 
-const Developer = ({ animationName = "salute", ...props }) => {
+const Developer = ({ animationName = "dancing", ...props }) => {
   const group = useRef();
 
   // Load the GLTF model and animations
   const { nodes, materials } = useGLTF("/models/human/developer.glb");
 
   const { animations: idleAnimation } = useGLTF(
-    "/models/animations/salute.glb"
+    "/models/animations/dancing.glb"
   );
 
   const { animations: saluteAnimation } = useGLTF(
     "/models/animations/salute.glb"
+  );
+
+  const { animations: dancingAnimation } = useGLTF(
+    "/models/animations/dancing.glb"
   );
 
   // Rename animation for clarity
