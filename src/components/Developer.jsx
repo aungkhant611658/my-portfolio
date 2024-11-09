@@ -1,13 +1,13 @@
 import { useAnimations, useGLTF } from "@react-three/drei";
 import { useEffect, useRef } from "react";
 
-const Developer = ({ animationName = "offensive_idle", ...props }) => {
+const Developer = ({ animationName = "idle", ...props }) => {
   const group = useRef();
 
   // Load the GLTF model and animations
   const { nodes, materials } = useGLTF("/models/human/developer.glb");
 
-  const { animations: idleAnimation } = useGLTF("/models/human/developer.glb");
+  const { animations: idleAnimation } = useGLTF("/models/animations/idle.glb");
 
   const { animations: saluteAnimation } = useGLTF(
     "/models/animations/salute.glb"
@@ -22,10 +22,21 @@ const Developer = ({ animationName = "offensive_idle", ...props }) => {
   );
 
   // Rename animation for clarity
-  idleAnimation[0].name = animationName;
+  idleAnimation[0].name = "idle";
+  saluteAnimation[0].name = "salute";
+  dancingAnimation[0].name = "dancing";
+  offensiveIdleAnimation[0].name = "offensive_idle";
 
   // Setup animations using `useAnimations` hook
-  const { actions } = useAnimations(idleAnimation, group);
+  const { actions } = useAnimations(
+    [
+      idleAnimation[0],
+      saluteAnimation[0],
+      dancingAnimation[0],
+      offensiveIdleAnimation[0],
+    ],
+    group
+  );
 
   useEffect(() => {
     const action = actions[animationName];
